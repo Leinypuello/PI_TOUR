@@ -6,6 +6,8 @@ import Login from './components/Login';
 import ReserveTour from './pages/ReserveTour';
 import MyReservations from './pages/MyReservations';
 import TourDetail from './pages/TourDetail';
+import GalleryView from './components/GalleryView';
+
 
 
 
@@ -20,6 +22,7 @@ function App() {
         <Route path="/reserve/:tourId" element={<ReserveTour />} />
         <Route path="/my-reservations" element={<MyReservations />} />
         <Route path="/tour/:tourId" element={<TourDetail />} />
+        <Route path="/gallery/:tourId" element={<GalleryView />} />
       </Routes>
     </Router>
   );
