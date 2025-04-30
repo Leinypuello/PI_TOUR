@@ -9,10 +9,13 @@ import com.tourslp.tourslp.entity.User;
 import com.tourslp.tourslp.repository.IReservationRepository;
 import com.tourslp.tourslp.repository.IUserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -29,7 +32,8 @@ public class ReservationService {
                 .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
 
         if (reservationRepository.existsByDate(request.getDate())) {
-            throw new RuntimeException("Ya hay una reserva para este día");
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "{\"message\":\"Ya hay una reserva para este día\"}");
+
         }
 
         Reservation reservation = Reservation.builder()
@@ -113,5 +117,12 @@ public class ReservationService {
                 .toList();
 
         return new AvailabilityResponse(availableDates, reservedDates);
+    }
+
+    public List<LocalDate> getDisabledDatesForTour(Long tourId) {
+        List<Reservation> reservas = reservationRepository.findByTourId(tourId);
+        return reservas.stream()
+                .map(Reservation::getDate)
+                .collect(Collectors.toList());
     }
 }

@@ -1,0 +1,33 @@
+.my-reservations-container {
+    max-width: 600px;
+    margin: 100px auto 40px;
+    padding: 24px;
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+  }
+  
+  .my-reservations-container h2 {
+    text-align: center;
+    margin-bottom: 24px;
+    color: #1e293b;
+  }
+  
+  .error {
+    color: #dc2626;
+    text-align: center;
+  }
+  
+  .reservation-list {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .reservation-card {
+    padding: 16px;
+    margin-bottom: 12px;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    background-color: #f8fafc;
+  }
+  

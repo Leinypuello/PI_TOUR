@@ -41,9 +41,13 @@ function Header() {
         {token && role === 'ADMIN' && (
           <Link to="/register-tour" className="btn">Registrar Tour</Link>
         )}
+        {token && role === 'CLIENT' && (
+          <Link to="/my-reservations" className="btn">Mis reservas</Link>
+        )}
         {token && (
           <button className="btn" onClick={handleLogout}>Cerrar sesión</button>
         )}
+    
       </div>
     </header>
   );

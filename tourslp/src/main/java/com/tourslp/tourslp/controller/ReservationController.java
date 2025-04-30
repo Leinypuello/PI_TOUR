@@ -15,6 +15,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -60,5 +61,12 @@ public class ReservationController {
             @RequestParam int year,
             @RequestParam int month) {
         return ResponseEntity.ok(reservationService.getAvailability(year, month));
+    }
+
+    @PreAuthorize("hasRole('CLIENT')")
+    @GetMapping("/disabled-dates/{tourId}")
+    public ResponseEntity<List<LocalDate>> getDisabledDates(@PathVariable Long tourId) {
+        List<LocalDate> fechasOcupadas = reservationService.getDisabledDatesForTour(tourId);
+        return ResponseEntity.ok(fechasOcupadas);
     }
 }

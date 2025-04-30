@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './Main.css';
+import { Link } from 'react-router-dom';
+
 
 function Main() {
   const [tours, setTours] = useState([]);
@@ -56,6 +58,7 @@ function Main() {
               <p><strong>Duración:</strong> {tour.durationDays} días</p>
               <p><strong>Desde:</strong> {tour.startDate}</p>
               <p><strong>Hasta:</strong> {tour.endDate}</p>
+              <Link to={`/reserve/${tour.id}`} className="btn">Reservar</Link>
               {tour.imageUrls && tour.imageUrls.length > 0 && (
                 <img src={tour.imageUrls[0]} alt="Tour" className="tour-image" />
               )}

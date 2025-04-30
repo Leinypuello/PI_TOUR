@@ -11,4 +11,6 @@ public interface IReservationRepository extends JpaRepository<Reservation,Long> 
 
     List<Reservation> findByUser(User user);
     boolean existsByDate(LocalDate date);
+    List<Reservation> findByTourId(Long tourId);
+
 }
