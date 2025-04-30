@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import './Main.css';
 import { Link } from 'react-router-dom';
-
+import './Main.css';
 
 function Main() {
   const [tours, setTours] = useState([]);
   const [error, setError] = useState('');
+  const [search, setSearch] = useState('');
 
   useEffect(() => {
     fetch('http://localhost:8080/api/tours')
@@ -13,23 +13,29 @@ function Main() {
         if (!res.ok) throw new Error('Error al obtener tours');
         return res.json();
       })
-      .then((data) => {
-        const shuffled = data.sort(() => 0.5 - Math.random());
-        const selected = shuffled.slice(0, 10);
-        setTours(selected);
-      })
+      .then((data) => setTours(data))
       .catch((err) => setError(err.message));
   }, []);
 
+  const filteredTours = tours.filter(
+    (tour) =>
+      tour.name.toLowerCase().includes(search.toLowerCase()) ||
+      tour.description.toLowerCase().includes(search.toLowerCase())
+  );
+
   return (
     <div className="main">
-
       {/* Buscador */}
       <section className="section">
-        <input type="text" placeholder="Buscar tours por nombre o destino..." />
+        <input
+          type="text"
+          placeholder="Buscar tours por nombre o destino..."
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+        />
       </section>
 
-      {/* Categorías (mock) */}
+      {/* Categorías */}
       <section className="section">
         <h2>Categorías</h2>
         <div className="category-grid">
@@ -40,33 +46,48 @@ function Main() {
         </div>
       </section>
 
-      {/* Recomendaciones (mock) */}
+      {/* Recomendaciones */}
       <section className="section">
         <h2>Recomendaciones</h2>
         <p>Explora nuestras recomendaciones destacadas para ti...</p>
       </section>
 
-      {/* Lista de tours aleatorios */}
+      {/* Lista de Tours */}
       <section className="section">
         <h2>Tours disponibles</h2>
         {error && <p className="error">{error}</p>}
+
         <div className="tour-grid">
-          {tours.map((tour) => (
+          {filteredTours.map((tour) => (
             <div key={tour.id} className="tour-card">
               <h3>{tour.name}</h3>
               <p>{tour.description}</p>
               <p><strong>Duración:</strong> {tour.durationDays} días</p>
               <p><strong>Desde:</strong> {tour.startDate}</p>
               <p><strong>Hasta:</strong> {tour.endDate}</p>
-              <Link to={`/reserve/${tour.id}`} className="btn">Reservar</Link>
+
+              {/* Botones */}
+              <div className="tour-actions">
+                <Link to={`/reserve/${tour.id}`} className="btn btn-reserve">
+                  Reservar
+                </Link>
+                <Link to={`/tour/${tour.id}`} className="btn btn-detail">
+                  Ver detalle
+                </Link>
+              </div>
+
+              {/* Imagen */}
               {tour.imageUrls && tour.imageUrls.length > 0 && (
-                <img src={tour.imageUrls[0]} alt="Tour" className="tour-image" />
+                <img
+                  src={tour.imageUrls[0]}
+                  alt="Tour"
+                  className="tour-image"
+                />
               )}
             </div>
           ))}
         </div>
       </section>
-
     </div>
   );
 }

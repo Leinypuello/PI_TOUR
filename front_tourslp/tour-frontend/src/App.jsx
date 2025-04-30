@@ -5,6 +5,7 @@ import RegisterTour from './components/RegisterTour';
 import Login from './components/Login';
 import ReserveTour from './pages/ReserveTour';
 import MyReservations from './pages/MyReservations';
+import TourDetail from './pages/TourDetail';
 
 
 
@@ -18,6 +19,7 @@ function App() {
         <Route path="/register-tour" element={<RegisterTour />} />
         <Route path="/reserve/:tourId" element={<ReserveTour />} />
         <Route path="/my-reservations" element={<MyReservations />} />
+        <Route path="/tour/:tourId" element={<TourDetail />} />
       </Routes>
     </Router>
   );
